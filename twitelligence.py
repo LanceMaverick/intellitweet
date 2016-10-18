@@ -82,7 +82,7 @@ class TweetClassifier:
         self.classifier.fit(self.vectors, self.training_labels)
 
 
-    def predict(data):
+    def predict(self, data):
         """classify single string or list of strings"""
         if isinstance(data, basestring):
             vectors = self.vectorizer.transform([data])   
