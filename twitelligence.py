@@ -10,20 +10,11 @@ class TweetClassifier:
         classifier (string, svm object)
         vectorizer (TfidfVectorizer object)
         """
-        if kwargs['classifier']:
+        if 'classifier' in kwargs:
             self.classifier = self.load_classifier(kwargs['classifier'])
         else:
             self.classifier = svm.LinearSVC()
       
-
-     def load_classifier(self, cl):
-         """Assign classifier object or give the path to a pickled classifier"""
-            if isinstance(cl, basestring):
-                #load classifier
-                classifier = pickle.load(open(cl, 'rb'))
-            else:
-                classifier = cl
-
         self.training_data = []
         self.labels = []
         self.labeled_data = []
@@ -31,9 +22,17 @@ class TweetClassifier:
                 max_df = 0.8,
                 sublinear_tf=True,
                 use_idf=True)
-        self.vectorizor = kwargs.get('vectorizer', vectorizer)
+        self.vectorizer = kwargs.get('vectorizer', vectorizer)
 
         self.vectors = None
+    
+    def load_classifier(self, cl):
+        """Assign classifier object or give the path to a pickled classifier"""
+        if isinstance(cl, basestring):
+            #load classifier
+            classifier = pickle.load(open(cl, 'rb'))
+        else:
+            classifier = cl
 
 
     def add_labeled_data(self, data):
@@ -56,7 +55,7 @@ class TweetClassifier:
             for s in data:
                 self.labeled_data.append((s, label))
    
-   def clear_data(self):
+    def clear_data(self):
        """clear all data. Does not clear classifier"""
        self.training_data = []
        self.labeled_data = []
@@ -72,20 +71,20 @@ class TweetClassifier:
 
         self.training_data = [x[0] for x in self.labeled_data]
         self.training_labels = [x[1] for x in self.labeled_data]
-        self.vectors = vectorizer.fit_transform(self.training_data) 
+        self.vectors = self.vectorizer.fit_transform(self.training_data) 
     
 
     def train(self):
         """perform training on current data"""
-        if not self.vectors:
+        if self.vectors == None:
             warnings.warn('Data not prepared!! Use prepare_data()!')
             return
-        self.classifier.fit(self.training_data, self.training_labels)
+        self.classifier.fit(self.vectors, self.training_labels)
 
 
     def predict(data):
         """classify single string or list of strings"""
-        if isinstance(data, basestring)
+        if isinstance(data, basestring):
             vectors = self.vectorizer.transform([data])   
         elif isinstance(data, list):
             vectors = self.vectorizer.transform(data)
