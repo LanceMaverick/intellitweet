@@ -1,4 +1,5 @@
 import warnings
+import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import svm
 from sklearn.metrics import classification_report
