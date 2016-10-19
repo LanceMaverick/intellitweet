@@ -22,7 +22,8 @@ class TweetClassifier:
         vectorizer = TfidfVectorizer(
                 max_df = 0.8,
                 sublinear_tf=True,
-                use_idf=True)
+                use_idf=True,
+                decode_error='ignore')
         self.vectorizer = kwargs.get('vectorizer', vectorizer)
 
         self.vectors = None
