@@ -11,11 +11,14 @@ class TweetClassifier:
         classifier (string, svm object)
         vectorizer (TfidfVectorizer object)
         """
+        kernel = kwargs.get('kernel', 'linear')
         if 'classifier' in kwargs:
             self.classifier = self.load_classifier(kwargs['classifier'])
         else:
+            #self.classifier = svm.SVC(kernel, probability = True) #bug in scikit learn means only linearSVC() can be used for now
             self.classifier = svm.LinearSVC()
-      
+
+        print(self.classifier)
         self.training_data = []
         self.labels = []
         self.labeled_data = []
