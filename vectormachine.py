@@ -15,7 +15,8 @@ class TweetClassifier:
         if 'classifier' in kwargs:
             self.classifier = self.load_classifier(kwargs['classifier'])
         else:
-            #self.classifier = svm.SVC(kernel, probability = True) #bug in scikit learn means only linearSVC() can be used for now
+            #bug in scikit learn means only linearSVC() can be used for now
+            #self.classifier = svm.SVC(kernel, probability = True)
             self.classifier = svm.LinearSVC()
 
         print(self.classifier)
